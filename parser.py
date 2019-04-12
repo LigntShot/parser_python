@@ -36,14 +36,12 @@ def get_article_info(url = ""): # rez
 		pass
 
 	try:
-		s = soup.find('i', itemprop = 'keywords').findAll('span')
-		for k in s:
+		for k in soup.find('i', itemprop = 'keywords').findAll('span'):
 			keywords.append(k.get_text())
 		data.update({ 'keywords' : [ _.lower() for _ in keywords ]}) 
 	except AttributeError: 
 		pass
 		#data.update({ 'keywords' : [] })
-		# иногда нет ключевых слов 
 
 	try: 
 		anno = soup.find('p', itemprop = 'description').get_text()
@@ -51,7 +49,6 @@ def get_article_info(url = ""): # rez
 	except AttributeError: 
 		pass
 		#data.update({ 'annotation' : "" })
-		# иногда нет аннотации
 	
 	#return data
 	return json.dumps(data, ensure_ascii=0, indent = 4)
@@ -60,5 +57,4 @@ if __name__ == '__main__':
 #	print(get_article_info(url))
 	f = open('urls.txt')
 	for line in f.readlines():
-		#print(line)
 		print(get_article_info(line.rstrip()))
